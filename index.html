@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <title>Document</title>
+</head>
+
+<body onload="init();" onkeydown="clickHandler(event);">
+
+  <h1>The Psychic Game</h1>
+  <p>Guess what letter I'm thinking of</p>
+  <p>Wins:
+    <span id="spanWins"></span>
+  </p>
+  <p>Losses:
+    <span id="spanLosses"></span>
+  </p>
+  <p>Guesses Left:
+    <span id="spanGuessesLeft"></span>
+  </p>
+  <p>Your Guesses:
+    <span id="spanYourGuesses"></span>
+  </p>
+
+  <script>
+    //define and set global variables
+    var intWins = 0;
+    var intLosses = 0;
+    var intGuessesLeft = 9;
+    var strYourGuesses = "";
+    var strSolution = "";
+
+    function init()
+    // this is the initializing function for our game
+    {
+
+      //initializa all spans
+      document.getElementById("spanWins").innerHTML = window.intWins.toString();
+      document.getElementById("spanLosses").innerHTML = window.intLosses.toString();
+      document.getElementById("spanGuessesLeft").innerHTML = window.intGuessesLeft.toString();
+
+      //randomize the char to be guessed
+      window.strSolution = getRandomCharacter();
+    }
+
+    function clickHandler(evtKeyDown)
+    //
+    {
+      //fetch and cast key stroke
+      var strGuess = evtKeyDown.key;
+      strGuess = strGuess.toUpperCase();
+
+       
+
+      window.intGuessesLeft--;
+
+      if (strGuess == window.strSolution) {
+        //reset "Guesses Left"
+        window.intGuessesLeft = 9;
+        document.getElementById("spanGuessesLeft").innerHTML = window.intGuessesLeft.toString();
+
+        //reset "Your guesses"
+        window.strYourGuesses = "";
+        document.getElementById("spanYourGuesses").innerHTML = window.strYourGuesses.toString();
+
+        //update "Wins"
+        window.intWins++;
+        document.getElementById("spanWins").innerHTML = window.intWins.toString();
+
+        window.strSolution = getRandomCharacter();
+
+      } else if (window.intGuessesLeft == 0) {
+        //update "Losses"
+        window.intLosses++;
+        document.getElementById("spanLosses").innerHTML = window.intLosses.toString();
+
+        //reset "Guesses Left" 
+        window.intGuessesLeft = 9;
+        document.getElementById("spanGuessesLeft").innerHTML = window.intGuessesLeft.toString();
+
+        //reset "Your guesses" 
+        window.strYourGuesses = "";
+        document.getElementById("spanYourGuesses").innerHTML = window.strYourGuesses.toString();
+
+        window.strSolution = getRandomCharacter();
+      } else {
+        //update "Guesses Left"
+        document.getElementById("spanGuessesLeft").innerHTML = window.intGuessesLeft.toString();
+
+        //TO-DO:  update the "Your guesses"
+        addGuess(strGuess);
+        document.getElementById("spanYourGuesses").innerHTML = window.strYourGuesses;
+      }
+
+    }
+
+    function getRandomCharacter() {
+      return String.fromCharCode(Math.floor(Math.random() * 26) + 65);
+    }
+
+    function addGuess(strGuess) {
+      if (window.strYourGuesses.length > 0) {
+        window.strYourGuesses = window.strYourGuesses + ", " + strGuess;
+      } else {
+        window.strYourGuesses = strGuess;
+      }
+    }
+  </script>
+
+</body>
+
+</html>
